@@ -69,7 +69,13 @@ os_target_config()
 # macro definition located at "CMake/global_config.cmake"
 global_target_config()
 
-include(CMake/install_config.cmake)
+option(REALSENSE_INSTALL_CMAKE_CONFIG "Whethere to install cmake config or not" ON)
+if(REALSENSE_INSTALL_CMAKE_CONFIG)
+    include(CMake/install_config.cmake)
+else()
+    install(TARGETS ${LRS_TARGET}
+        PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/librealsense2")
+endif()
 
 add_subdirectory(wrappers)
 if ( ( BUILD_EXAMPLES OR BUILD_PC_STITCHING ) AND BUILD_GLSL_EXTENSIONS )
